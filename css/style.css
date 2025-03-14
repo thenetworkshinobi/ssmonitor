@@ -19,10 +19,14 @@ footer{
     padding-top: 25px;
 }
 nav{
+    top: 0px;
+    position: sticky;
     background: #1D3557;
     height: 80px;
     width: 100%;
     min-width: 626px;
+    z-index: 99;
+    
 }
 label.logo{
     color: white;
@@ -162,7 +166,7 @@ ul.class li{
 /* This Dashboard Style */
 .cards-container{
     display: flex;
-    gap: 10px 10px;
+    gap: 20px 20px;
     min-height: 800px;
     width: auto;
     flex-wrap: wrap;
@@ -189,9 +193,10 @@ ul.class li{
 }
 .card-container .card-items i.fa-solid.fa-circle-info{
     display: flex;
-    position: relative;
-    top: -20px;
-    right: -15px;
+    position: absolute;
+    top: -10px;
+    right: -9px;
+    height: ;
 }
 .card-items i, .addremove svg{
     color: #1D3557;
@@ -222,7 +227,7 @@ ul.class li{
         left: -100%;
         text-align: center;
         transition: all .5s;
-        z-index: 999;
+        z-index: 99;
     }
     nav .logo{
         font-size: 2em;
@@ -243,7 +248,9 @@ ul.class li{
         left: 0;
     }
     header{
+        
         min-width: 200px;
+        
     }
 
 }

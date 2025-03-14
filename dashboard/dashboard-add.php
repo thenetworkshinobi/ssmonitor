@@ -38,7 +38,7 @@ class DeviceHandler {
                     <option value="N/A">N/A</option>
                 </select><br><br>
 
-                <button type="submit" name="add-device">Submit</button>
+                <button class="b1" type="submit" name="add-device">Submit</button>
             </form>';
     }
 

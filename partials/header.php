@@ -21,7 +21,6 @@ $base = dirname(dirname(__FILE__));
 </head>
 
 <body>
-<header>
     <nav>
         <input type="checkbox" id="check">
         <label for="check" class="checkbtn">
@@ -51,7 +50,6 @@ $base = dirname(dirname(__FILE__));
         </ul>
         
     </nav>        
-</header>
 <main>
 
 
