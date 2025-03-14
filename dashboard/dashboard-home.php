@@ -46,6 +46,7 @@ if ($get_devices_result && $get_devices_result->rowCount() > 0) {
                     <li>IP Address:</li>
                     <li>Device Type:</li>
                     <li>OS:</li>
+                    <li>Status:</li>
                 </ul>
             </div>
             <div class="card-items" style="4">
@@ -54,6 +55,7 @@ if ($get_devices_result && $get_devices_result->rowCount() > 0) {
                     <li>' . htmlspecialchars($row->ip_address) . '</li>
                     <li>' . htmlspecialchars($row->device_type) . '</li>
                     <li>' . htmlspecialchars($row->os) . '</li>
+                    <li>' . htmlspecialchars($row->status) . '</li>
                 </ul>
             </div>
         </div>';
