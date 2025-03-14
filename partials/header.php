@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <?php 
 // session_status() === PHP_SESSION_ACTIVE ?: session_start();
 
@@ -6,8 +8,7 @@
 // }
 $base = dirname(dirname(__FILE__));
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
 
 <head>
     <meta charset="UTF-8">
@@ -16,8 +17,7 @@ $base = dirname(dirname(__FILE__));
     <title>Shinobi Dashboard</title>
     <link rel="stylesheet" href="<?php echo $host; ?>css/style.css">
     <script src="https://kit.fontawesome.com/8525e48e15.js" crossorigin="anonymous"></script>
-    <link rel="icon" href="img/icon.svg" type="image/svg" sizes="16x16">
-    
+    <link rel="icon" href="img/icon.svg" type="image/svg" sizes="16x16">    
 </head>
 
 <body>
