@@ -63,7 +63,6 @@ if ($get_devices_result && $get_devices_result->rowCount() > 0) {
 }
 //$conn->close();
 
-//this is a change
 ?>
 
 
