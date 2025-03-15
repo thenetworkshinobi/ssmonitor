@@ -9,9 +9,7 @@
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
-    // SQL query to fetch data
-    $get_devices_sql = "SELECT hostname, ip_address, device_type, os, device_status FROM device_list";
-    $get_devices_result = $dbh->query($get_devices_sql);
+    
 
 ?>
 <h1> Hosts</h1>
@@ -27,41 +25,49 @@
     </div>
 </div>
 <?php
-// Check if the query returns rows
-if ($get_devices_result && $get_devices_result->rowCount() > 0) {
-    // Loop through each row
-    while ($row = $get_devices_result->fetch()) {
-        // Generate HTML block
-        echo '
-        <div class="card-container">
-            <div class="card-items" style="1">
-                <i class="fa-solid fa-server"></i>
-            </div>
-            <div class="card-items" style="2">
-                <i class="fa-solid fa-circle-info"></i>
-            </div>
-            <div class="card-items" style="3">
-                <ul class="card">
-                    <li>Hostname:</li>
-                    <li>IP Address:</li>
-                    <li>Device Type:</li>
-                    <li>OS:</li>
-                    <li>Status:</li>
-                </ul>
-            </div>
-            <div class="card-items" style="4">
-                <ul class="card">
-                    <li>' . htmlspecialchars($row->hostname) . '</li>
-                    <li>' . htmlspecialchars($row->ip_address) . '</li>
-                    <li>' . htmlspecialchars($row->device_type) . '</li>
-                    <li>' . htmlspecialchars($row->os) . '</li>
-                    <li>' . htmlspecialchars($row->device_status) . '</li>
-                </ul>
-            </div>
-        </div>';
+try {
+    // SQL query to fetch data
+    $get_devices_sql = "SELECT hostname, ip_address, device_type, os, device_status FROM device_list";
+    $get_devices_result = $dbh->query($get_devices_sql);
+    // Check if the query returns rows
+    if ($get_devices_result && $get_devices_result->rowCount() > 0) {
+        // Loop through each row
+        while ($row = $get_devices_result->fetch()) {
+            // Generate HTML block
+            echo '
+            <div class="card-container">
+                <div class="card-items" style="1">
+                    <i class="fa-solid fa-server"></i>
+                </div>
+                <div class="card-items" style="2">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="card-items" style="3">
+                    <ul class="card">
+                        <li>Hostname:</li>
+                        <li>IP Address:</li>
+                        <li>Device Type:</li>
+                        <li>OS:</li>
+                        <li>Status:</li>
+                    </ul>
+                </div>
+                <div class="card-items" style="4">
+                    <ul class="card">
+                        <li>' . htmlspecialchars($row->hostname) . '</li>
+                        <li>' . htmlspecialchars($row->ip_address) . '</li>
+                        <li>' . htmlspecialchars($row->device_type) . '</li>
+                        <li>' . htmlspecialchars($row->os) . '</li>
+                        <li>' . htmlspecialchars($row->device_status) . '</li>
+                    </ul>
+                </div>
+            </div>';
+        }
+    } else {
+        echo "Please add hosts to monitor";
     }
-} else {
-    echo "Please add hosts to monitor";
+} catch (PDOException $e) {
+    // Handle exceptions related to database operations
+    echo "An error occurred: " . $e->getMessage();
 }
 //$conn->close();
 
