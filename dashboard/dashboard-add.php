@@ -17,7 +17,7 @@ class DeviceHandler {
             </div>';
         }else{
             $successMessage = "";
-        }
+        } 
 
         return  '
             <form action="add-device.php" method="POST">

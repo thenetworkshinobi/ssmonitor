@@ -51,7 +51,7 @@
                 $message[] = "Host already registered";
                 header("Location: " .$host . "/dashboard/dashboard-add.php?action=add-device&message=" . $message[0]);
                 exit();
-            }
+            } 
         }
         // Close connection
         //$conn->close();

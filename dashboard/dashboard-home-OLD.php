@@ -22,7 +22,7 @@
     $get_devices_sql = "SELECT hostname, ip_address, device_type, os FROM device_list";
     $get_devices_result = $database->query($get_devices_sql);
 
-?>
+?> 
 
     
     <div class="cards-container">
