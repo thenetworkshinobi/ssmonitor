@@ -43,7 +43,7 @@ class DeviceHandler {
             // Database removal logic
             try {
                 global $dbh; // Use the global database handle
-                $stmt = $dbh->prepare("DELETE FROM device_list WHERE hostname = :hostname");
+                $stmt = $dbh->prepare("SELECT FROM device_list WHERE hostname = :hostname");
                 $stmt->bindParam(':hostname', $hostname, PDO::PARAM_STR);
     
                 if ($stmt->execute()) {
