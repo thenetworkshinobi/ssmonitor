@@ -9,13 +9,14 @@ CREATE TABLE admins (
     enabled BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE stats(
-	id INT AUTO_INCREMENT PRIMARY KEY,
-	hostname VARCHAR(255) NULL,
-	ipAddress VARCHAR(255) NOT NULL,
-	status VARCHAR(255) NOT NULL,
-	lastUpdate TIMESTAMP NOT NULL,
-)
+CREATE TABLE deviceStatus (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip_address VARCHAR(45), -- Match the data type with the column in device_list
+    status VARCHAR(255), -- Adjust the length as needed
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ip_address) REFERENCES device_list(ip_address)
+);
+
 
 CREATE TABLE device_list (
     id INT AUTO_INCREMENT PRIMARY KEY,
