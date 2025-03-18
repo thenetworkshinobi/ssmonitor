@@ -15,7 +15,7 @@ $base = dirname(dirname(__FILE__));
     <meta name="viewport" content="width=device-width", initial-scale="1.0">
     <?php include($base .'/config/variables.php'); ?>
     <title>Shinobi Dashboard</title>
-    <link rel="stylesheet" href="<?php echo $host; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo $host; ?>/css/style.css">
     <script src="https://kit.fontawesome.com/8525e48e15.js" crossorigin="anonymous"></script>
     <link rel="icon" href="img/icon.svg" type="image/svg" sizes="16x16">    
 </head>
@@ -41,8 +41,8 @@ $base = dirname(dirname(__FILE__));
                 <?php
                     } else {
                 ?>
-                    <li><a href="<?php echo $host; ?>/?action=index">Home</a></li>
-                    <li><a href="<?php echo $host; ?>/?action=signin">Signin</a></li>
+                    <li><a href="<?php echo $host; ?>?action=index">Home</a></li>
+                    <li><a href="<?php echo $host; ?>?action=signin">Signin</a></li>
                     <li><a href="<?php echo $host; ?>/?action=signup">Signup</a></li>
                 <?php
                 }

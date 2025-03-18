@@ -35,7 +35,7 @@ class DeviceHandler {
     }
 
     public function removeDevice() {
-        $message = '';
+        $message = $message ?? ''; 
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hostname'])) {
             $hostname = htmlspecialchars($_POST['hostname']);
@@ -62,6 +62,9 @@ class DeviceHandler {
         // Start output buffering
         ob_start();
         ?>
+        <div style="padding:10px; color:red; background:white;">
+            <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
         <form action="" method="POST">
             <label for="hostname">Hostname to Remove:</label>
             <select id="hostname" name="hostname" required>
@@ -89,14 +92,11 @@ class DeviceHandler {
     
             <button class="b1" type="submit" name="remove-device">Remove Device</button>
         </form>
-        <div style="padding:10px; color:black; background:white;">
-            <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
-        </div>
+        
         <?php
         // Return the buffered content
         return ob_get_clean();
     }
-    
     
 
     public function renderDeviceForm() {
