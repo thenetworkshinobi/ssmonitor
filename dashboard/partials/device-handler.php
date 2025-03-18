@@ -10,7 +10,7 @@ class DeviceHandler {
         } else {
             $successMessage = "";
         }
- 
+        
         return '
             <form action="add-device.php" method="POST">
                 ' . $successMessage . '
@@ -38,15 +38,18 @@ class DeviceHandler {
         $message = '';
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hostname'])) {
-            $hostname = $_POST['hostname'];
+            $hostname = htmlspecialchars($_POST['hostname']);
     
             // Database removal logic
             try {
-                global $dbh; // Use the global database handle
-                $stmt = $dbh->prepare("SELECT FROM device_list WHERE hostname = :hostname");
-                $stmt->bindParam(':hostname', $hostname, PDO::PARAM_STR);
+                $database1 = new dbConnect();
+                $dbh1 = $database1->connect();
+                $dbh1->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                $delete_host_sql = "DELETE FROM device_list WHERE hostname = :hostname";
+                $delete_host_stmt = $dbh1->prepare($delete_host_sql);
+                $delete_host_stmt->bindParam(':hostname', $hostname);
     
-                if ($stmt->execute()) {
+                if ($delete_host_stmt->execute()) {
                     $message = "Device removed successfully.";
                 } else {
                     $message = "Failed to remove device.";
@@ -65,13 +68,15 @@ class DeviceHandler {
                 <?php
                 try {
                     // Assuming $dbh is your PDO database connection
-                    global $dbh;
-                    $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                    $host_delete_sql = "SELECT hostname FROM device_list";
-                    $host_delete_stmt = $dbh->query($host_delete_sql);
-    
+                    $database2 = new dbConnect();
+                    $dbh2 = $database2->connect();
+                    $dbh2->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+                    $list_host_sql = "SELECT hostname FROM device_list";
+                    $list_host_stmt = $dbh2->prepare($list_host_sql); 
+                    $list_host_stmt->execute();
+                    $list_host_results = $list_host_stmt->fetchAll();
                     // Loop through the results and populate the dropdown options
-                    while ($row = $host_delete_stmt->fetch()) {
+                    foreach ($list_host_results as $row) {
                         echo '<option value="' . htmlspecialchars($row['hostname'], ENT_QUOTES, 'UTF-8') . '">' 
                             . htmlspecialchars($row['hostname'], ENT_QUOTES, 'UTF-8') 
                             . '</option>';
