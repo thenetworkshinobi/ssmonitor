@@ -23,5 +23,7 @@ CREATE TABLE device_list (
     hostname VARCHAR(255) NOT NULL,
     ip_address VARCHAR(255) NOT NULL,
     device_type VARCHAR(50) NOT NULL,
-    os VARCHAR(50) NOT NULL
+    os VARCHAR(50) NOT NULL,
+    device_status NOT NULL DEFAULT Offline
+
 );
