@@ -3,8 +3,8 @@
 
 class dbConnect
 {
-    //private $dbhost = "192.168.100.232";
-    private $dbhost = "td-jgriffith-l";
+    private $dbhost = "192.168.100.232";
+    //private $dbhost = "td-jgriffith-l";
     private $dbname = "sdash2";
     private $dbuser = "ssadminuser";
     private $dbpassword = "Password1";
