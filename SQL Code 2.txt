@@ -1,0 +1,43 @@
+CREATE TABLE admin (
+    adminID INT AUTO_INCREMENT PRIMARY KEY,
+    fname VARCHAR(255) NOT NULL,
+    lname VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    id_secret VARCHAR(6) NULL,
+    enabled BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE device (
+    deviceID INT AUTO_INCREMENT PRIMARY KEY,
+    ip_address VARCHAR(45) NOT NULL, -- Match the data type with the column in device_list
+    hostname VARCHAR(255) NOT NULL,
+    device_type VARCHAR(40) NOT NULL,
+    os VARCHAR(50) NOT NULL,
+    userID VARCHAR NOT NULL, 
+    FOREIGN KEY (adminID) REFERENCES admins(id) -- Define foreign key linking to admins table
+    
+);
+
+CREATE TABLE device_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    deviceID INT NOT NULL,
+    statusID INT NOT NULL,
+    FORIGN KEY (deviceID) REFERENCES device(deviceID),
+    FOREIGN KEY (statusID) REFERENCES status(statusID)
+);
+
+CREATE TABLE status(
+    statusID INT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(255),
+    updateTime CURRENT_TIMESTAMP
+);
+
+CREATE TABLE environment(
+    environmentID INT AUTO_INCREMENT PRIMARY KEY,
+    temperature DOUBLE(3) NOT NULL,
+    humidity INT(3) NOT NULL,
+    updateTime CURRENT_TIMESTAMP
+
+);
