@@ -1,3 +1,10 @@
+-- Create the ssmonitor database
+CREATE DATABASE ssmonitor;
+
+-- Switch to the ssmonitor database
+USE ssmonitor;
+
+-- Create the admin table
 CREATE TABLE admin (
     adminID INT AUTO_INCREMENT PRIMARY KEY,
     fname VARCHAR(255) NOT NULL,
@@ -9,35 +16,37 @@ CREATE TABLE admin (
     enabled BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+-- Create the device table
 CREATE TABLE device (
     deviceID INT AUTO_INCREMENT PRIMARY KEY,
-    ip_address VARCHAR(45) NOT NULL, -- Match the data type with the column in device_list
+    ip_address VARCHAR(45) NOT NULL,
     hostname VARCHAR(255) NOT NULL,
     device_type VARCHAR(40) NOT NULL,
     os VARCHAR(50) NOT NULL,
-    userID VARCHAR NOT NULL, 
-    FOREIGN KEY (adminID) REFERENCES admins(id) -- Define foreign key linking to admins table
-    
+    adminID INT NOT NULL,
+    FOREIGN KEY (adminID) REFERENCES admin(adminID)
 );
 
+-- Create the device_status table
 CREATE TABLE device_status (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    deviceStatusID INT AUTO_INCREMENT PRIMARY KEY,
     deviceID INT NOT NULL,
     statusID INT NOT NULL,
-    FORIGN KEY (deviceID) REFERENCES device(deviceID),
+    updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (deviceID) REFERENCES device(deviceID),
     FOREIGN KEY (statusID) REFERENCES status(statusID)
 );
 
-CREATE TABLE status(
+-- Create the status table
+CREATE TABLE status (
     statusID INT AUTO_INCREMENT PRIMARY KEY,
-    status VARCHAR(255),
-    updateTime CURRENT_TIMESTAMP
+    status VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE environment(
+-- Create the environment table
+CREATE TABLE environment (
     environmentID INT AUTO_INCREMENT PRIMARY KEY,
-    temperature DOUBLE(3) NOT NULL,
-    humidity INT(3) NOT NULL,
-    updateTime CURRENT_TIMESTAMP
-
+    temperature DOUBLE(3, 2) NOT NULL,
+    humidity TINYINT(3) NOT NULL,
+    updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
