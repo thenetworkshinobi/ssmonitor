@@ -12,6 +12,7 @@
         $device_type = htmlspecialchars($_POST['device_type']);
         $os = htmlspecialchars($_POST['os']);
         $message = array();
+        $id = $_SESSION['id'];
 
         // Resolve IP address
         $ip_address = gethostbyname($hostname);
@@ -26,7 +27,7 @@
             $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
             //Check for Existing Entry
-            $host_find_sql = "SELECT * FROM device_list WHERE ip_address=:ip_address";
+            $host_find_sql = "SELECT * FROM device WHERE ip_address=:ip_address";
             $host_find_stmt = $dbh->prepare($host_find_sql);
             $host_find_stmt->bindParam("ip_address", $ip_address);
             $host_find_stmt->execute();
@@ -34,13 +35,14 @@
 
             if (empty($host_find_result)){
                 // Insert data into MySQL table
-                $add_device_sql = "INSERT INTO device_list (hostname, ip_address, device_type, os) 
-                    VALUES (:hostname, :ip_address, :device_type, :os)";
+                $add_device_sql = "INSERT INTO device (hostname, ip_address, device_type, os, adminID) 
+                    VALUES (:hostname, :ip_address, :device_type, :os, :id)";
                 $add_device_sql_stmt = $dbh->prepare($add_device_sql);
                 $add_device_sql_stmt->bindParam("hostname", $hostname);
                 $add_device_sql_stmt->bindParam("ip_address", $ip_address);
                 $add_device_sql_stmt->bindParam("device_type", $device_type);
                 $add_device_sql_stmt->bindParam("os", $os);
+                $add_device_sql_stmt->bindParam("id", $id);
                 $add_device_sql_stmt->execute();
 
                 $message[] = "New device registered successfully";

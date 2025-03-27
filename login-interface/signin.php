@@ -44,7 +44,7 @@ if (isset($_POST['signin'])) {
         $dbh = $database->connect();
         $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $hash_password = md5($password);
-        $username_password_finding_sql =  "SELECT id, fname, username FROM admins WHERE username=:username AND password=:password";    // SOME PROBLEM WITH SQL QUERY
+        $username_password_finding_sql =  "SELECT adminID, fname, username FROM adminuser WHERE username=:username AND password=:password";    // SOME PROBLEM WITH SQL QUERY
         $username_password_finding_stmt = $dbh->prepare($username_password_finding_sql);
         $username_password_finding_stmt->bindParam("username", $username);
         // $hash_password = md5($password);
@@ -68,7 +68,7 @@ if (isset($_POST['signin'])) {
             // die();
             // session_start() creates a session or resumes the current one based on a session identifier passed via a GET or POST request, or passed via a cookie.
             session_start();
-            $_SESSION['id'] = $username_password_result->id;
+            $_SESSION['id'] = $username_password_result->adminID;
             $_SESSION['fname'] = $username_password_result->fname;
             $_SESSION['username'] = $username_password_result->username;
             $_SESSION['id_secret'] = false;

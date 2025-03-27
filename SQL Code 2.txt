@@ -4,8 +4,8 @@ CREATE DATABASE ssmonitor;
 -- Switch to the ssmonitor database
 USE ssmonitor;
 
--- Create the admin table
-CREATE TABLE admin (
+-- Create the adminuser table
+CREATE TABLE adminuser (
     adminID INT AUTO_INCREMENT PRIMARY KEY,
     fname VARCHAR(255) NOT NULL,
     lname VARCHAR(255) NOT NULL,
@@ -50,3 +50,27 @@ CREATE TABLE environment (
     humidity TINYINT(3) NOT NULL,
     updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+CREATE VIEW recent_device_status AS
+SELECT 
+    device.deviceID,
+    device.ip_address,
+    device.hostname,
+    device.device_type,
+    device.os,
+    status.status AS latest_status,
+    device_status.updateTime AS last_updated
+FROM 
+    device
+JOIN 
+    device_status ON device.deviceID = device_status.deviceID
+JOIN 
+    status ON device_status.statusID = status.statusID
+WHERE 
+    device_status.updateTime = (
+        SELECT MAX(updateTime) 
+        FROM device_status 
+        WHERE deviceID = device.deviceID
+    );
+
+    SELECT * FROM recent_device_status;

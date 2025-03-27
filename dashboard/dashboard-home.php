@@ -27,7 +27,7 @@
 <?php
 try {
     // SQL query to fetch data
-    $get_devices_sql = "SELECT hostname, ip_address, device_type, os, device_status FROM device_list";
+    $get_devices_sql = "SELECT * FROM recent_device_status";
     $get_devices_result = $dbh->query($get_devices_sql);
     // Check if the query returns rows
     if ($get_devices_result && $get_devices_result->rowCount() > 0) {
@@ -57,7 +57,7 @@ try {
                         <li>' . htmlspecialchars($row->ip_address) . '</li>
                         <li>' . htmlspecialchars($row->device_type) . '</li>
                         <li>' . htmlspecialchars($row->os) . '</li>
-                        <li>' . htmlspecialchars($row->device_status) . '</li>
+                        <li>' . htmlspecialchars($row->latest_status) . '</li>
                     </ul>
                 </div>
             </div>';
