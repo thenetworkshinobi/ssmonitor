@@ -45,7 +45,7 @@ class DeviceHandler {
                 $database1 = new dbConnect();
                 $dbh1 = $database1->connect();
                 $dbh1->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                $delete_host_sql = "DELETE FROM device_list WHERE hostname = :hostname";
+                $delete_host_sql = "DELETE FROM device WHERE hostname = :hostname";
                 $delete_host_stmt = $dbh1->prepare($delete_host_sql);
                 $delete_host_stmt->bindParam(':hostname', $hostname);
     
@@ -74,7 +74,7 @@ class DeviceHandler {
                     $database2 = new dbConnect();
                     $dbh2 = $database2->connect();
                     $dbh2->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                    $list_host_sql = "SELECT hostname FROM device_list";
+                    $list_host_sql = "SELECT hostname FROM device";
                     $list_host_stmt = $dbh2->prepare($list_host_sql); 
                     $list_host_stmt->execute();
                     $list_host_results = $list_host_stmt->fetchAll();
