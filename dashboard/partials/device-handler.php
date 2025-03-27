@@ -45,14 +45,39 @@ class DeviceHandler {
                 $database1 = new dbConnect();
                 $dbh1 = $database1->connect();
                 $dbh1->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                $delete_host_sql = "DELETE FROM device WHERE hostname = :hostname";
-                $delete_host_stmt = $dbh1->prepare($delete_host_sql);
-                $delete_host_stmt->bindParam(':hostname', $hostname);
+
+                $dbh1->beginTransaction();
+
+                // Step 1: Retrieve the deviceID based on the hostname.
+                $get_device_id_sql = "SELECT deviceID FROM device WHERE hostname = :hostname";
+                $get_device_id_stmt = $dbh1->prepare($get_device_id_sql);
+                $get_device_id_stmt->bindParam(':hostname', $hostname, PDO::PARAM_STR);
+                $get_device_id_stmt->execute();
+                $device_id_result = $get_device_id_stmt->fetch(PDO::FETCH_ASSOC);
+                
+                if ($device_id_result && isset($device_id_result['deviceID'])) {
+                    $deviceID = $device_id_result['deviceID'];
+                    
+                    // Step 2: Delete from related tables using the deviceID.
+                    $delete_device_status_sql = "DELETE FROM device_status WHERE deviceID = :deviceID";
+                    $delete_device_status_stmt = $dbh1->prepare($delete_device_status_sql);
+                    $delete_device_status_stmt->bindParam(':deviceID', $deviceID, PDO::PARAM_INT);
+                    $delete_device_status_stmt->execute();
     
-                if ($delete_host_stmt->execute()) {
-                    $message = "Device removed successfully.";
+                    // Step 3: Delete from the device table.
+                    $delete_device_sql = "DELETE FROM device WHERE deviceID = :deviceID";
+                    $delete_device_stmt = $dbh1->prepare($delete_device_sql);
+                    $delete_device_stmt->bindParam(':deviceID', $deviceID, PDO::PARAM_INT);
+                    $delete_device_stmt->execute();
+    
+                   
+    
+                    // Commit transaction.
+                    $dbh1->commit();
+                    $message = "Device and all associated entries removed successfully.";
                 } else {
-                    $message = "Failed to remove device.";
+                    $message = "Error: Hostname not found.";
+                    $dbh->rollBack(); // Rollback transaction if deviceID retrieval fails.
                 }
             } catch (PDOException $e) {
                 $message = "Error: " . $e->getMessage();
