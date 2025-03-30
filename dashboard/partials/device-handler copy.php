@@ -1,9 +1,74 @@
 <?php
 class DeviceHandler {
-    
-    // Public function to add a device
+    // Function to fetch dropdown options
+    private function fetchOptions($table, $idField, $nameField) {
+        try {
+            $database = new dbConnect();
+            $dbh = $database->connect();
+            $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $stmt = $dbh->prepare("SELECT $idField, $nameField FROM $table");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching options: " . $e->getMessage();
+            return [];
+        }
+    }
+
     public function addDevice() {
-        
+        // Fetch device types and operating systems
+        $deviceTypes = fetchOptions('device_type', 'typeID', 'type_name');
+        $osList = fetchOptions('os', 'osID', 'os_name');
+
+        // Check if the form was submitted
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $hostname = $_POST['hostname'];
+            $ip_address = $_POST['ip_address'];
+            $typeID = $_POST['typeID'];
+            $osID = $_POST['osID'];
+            $adminID = 1; // Replace with the current admin ID (e.g., fetched from session)
+
+            try {
+                $stmt = $pdo->prepare("INSERT INTO device (hostname, ip_address, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$hostname, $ip_address, $typeID, $osID, $adminID]);
+                echo "Device added successfully!";
+            } catch (PDOException $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        }
+        echo "
+        <h1>Add Device</h1>
+        <form method='post' action=''>
+            <label for='hostname'>Hostname:</label>
+            <input type='text' name='hostname' id='hostname' required><br><br>
+
+            <label for='ip_address'>IP Address:</label>
+            <input type='text' name='ip_address' id='ip_address' required><br><br>
+
+            <label for='typeID'>Device Type:</label>
+            <select name='typeID' id='typeID' required>
+                <option value=''>--Select Device Type--</option>";
+
+        foreach ($deviceTypes as $type) {
+            echo "<option value='" . htmlspecialchars($type['typeID']) . "'>" . htmlspecialchars($type['type_name']) . "</option>";
+        }
+
+        echo "
+            </select><br><br>
+
+            <label for='osID'>Operating System:</label>
+            <select name='osID' id='osID' required>
+                <option value=''>--Select Operating System--</option>";
+
+        foreach ($osList as $os) {
+            echo "<option value='" . htmlspecialchars($os['osID']) . "'>" . htmlspecialchars($os['os_name']) . "</option>";
+        }
+
+        echo "
+            </select><br><br>
+
+            <button type='submit'>Add Device</button>
+        </form>";
     }
 
     public function removeDevice() {

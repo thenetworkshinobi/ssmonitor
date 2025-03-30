@@ -35,13 +35,13 @@
 
             if (empty($host_find_result)){
                 // Insert data into MySQL table
-                $add_device_sql = "INSERT INTO device (hostname, ip_address, device_type, os, adminID) 
-                    VALUES (:hostname, :ip_address, :device_type, :os, :id)";
+                $add_device_sql = "INSERT INTO device (hostname, ip_address, typeID, osID, adminID) 
+                    VALUES (:hostname, :ip_address, :typeID, :osID, :id)";
                 $add_device_sql_stmt = $dbh->prepare($add_device_sql);
                 $add_device_sql_stmt->bindParam("hostname", $hostname);
                 $add_device_sql_stmt->bindParam("ip_address", $ip_address);
-                $add_device_sql_stmt->bindParam("device_type", $device_type);
-                $add_device_sql_stmt->bindParam("os", $os);
+                $add_device_sql_stmt->bindParam("typeID", $device_type);
+                $add_device_sql_stmt->bindParam("osID", $os);
                 $add_device_sql_stmt->bindParam("id", $id);
                 $add_device_sql_stmt->execute();
 

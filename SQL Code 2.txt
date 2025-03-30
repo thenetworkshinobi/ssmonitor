@@ -16,31 +16,65 @@ CREATE TABLE adminuser (
     enabled BOOLEAN NOT NULL DEFAULT FALSE
 );
 
--- Create the device table
+-- Create the device_type table
+CREATE TABLE device_type (
+    typeID INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(40) NOT NULL
+);
+
+-- Insert device types
+INSERT INTO device_type (type_name) VALUES 
+('Desktop'), 
+('Server'), 
+('IoT'), 
+('Network');
+
+-- Create the os table
+CREATE TABLE os (
+    osID INT AUTO_INCREMENT PRIMARY KEY,
+    os_name VARCHAR(50) NOT NULL
+);
+
+-- Insert operating systems
+INSERT INTO os (os_name) VALUES 
+('Windows'), 
+('Linux'), 
+('iOS'), 
+('Other');
+
+-- Modify the device table
 CREATE TABLE device (
     deviceID INT AUTO_INCREMENT PRIMARY KEY,
     ip_address VARCHAR(45) NOT NULL,
     hostname VARCHAR(255) NOT NULL,
-    device_type VARCHAR(40) NOT NULL,
-    os VARCHAR(50) NOT NULL,
+    typeID INT NOT NULL,
+    osID INT NOT NULL,
     adminID INT NOT NULL,
-    FOREIGN KEY (adminID) REFERENCES admin(adminID)
-);
-
--- Create the device_status table
-CREATE TABLE device_status (
-    deviceStatusID INT AUTO_INCREMENT PRIMARY KEY,
-    deviceID INT NOT NULL,
-    statusID INT NOT NULL,
-    updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (deviceID) REFERENCES device(deviceID),
-    FOREIGN KEY (statusID) REFERENCES status(statusID)
+    FOREIGN KEY (typeID) REFERENCES device_type(typeID) ON DELETE CASCADE,
+    FOREIGN KEY (osID) REFERENCES os(osID) ON DELETE CASCADE,
+    FOREIGN KEY (adminID) REFERENCES adminuser(adminID) ON DELETE CASCADE
 );
 
 -- Create the status table
 CREATE TABLE status (
     statusID INT AUTO_INCREMENT PRIMARY KEY,
     status VARCHAR(255) NOT NULL
+);
+
+INSERT INTO status (status) VALUES 
+('Unknown'),
+('Offline'),
+('Online');
+
+
+-- Create the device_status table
+CREATE TABLE device_status (
+    deviceStatusID INT AUTO_INCREMENT PRIMARY KEY,
+    deviceID INT NOT NULL,
+    statusID INT DEFAULT 1, 
+    updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (deviceID) REFERENCES device(deviceID) ON DELETE CASCADE,
+    FOREIGN KEY (statusID) REFERENCES status(statusID) ON DELETE CASCADE
 );
 
 -- Create the environment table
@@ -51,26 +85,30 @@ CREATE TABLE environment (
     updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-CREATE VIEW recent_device_status AS
+CREATE OR REPLACE VIEW recent_device_status AS
 SELECT 
-    device.deviceID,
-    device.ip_address,
-    device.hostname,
-    device.device_type,
-    device.os,
-    status.status AS latest_status,
-    device_status.updateTime AS last_updated
+    d.hostname,
+    d.ip_address,
+    dt.type_name AS device_type,
+    o.os_name AS OS,
+    s.status AS latest_status
 FROM 
-    device
+    device AS d
 JOIN 
-    device_status ON device.deviceID = device_status.deviceID
+    device_type AS dt ON d.typeID = dt.typeID
 JOIN 
-    status ON device_status.statusID = status.statusID
+    os AS o ON d.osID = o.osID
+JOIN 
+    device_status AS ds ON d.deviceID = ds.deviceID
+JOIN 
+    status AS s ON ds.statusID = s.statusID
 WHERE 
-    device_status.updateTime = (
-        SELECT MAX(updateTime) 
-        FROM device_status 
-        WHERE deviceID = device.deviceID
+    ds.updateTime = (
+        SELECT MAX(ds_inner.updateTime)
+        FROM device_status AS ds_inner
+        WHERE ds_inner.deviceID = d.deviceID
     );
 
-    SELECT * FROM recent_device_status;
+
+
+https://stackoverflow.com/questions/62564439/mysql-mariadb-server-raspberry-pi-remote-access 
