@@ -13,7 +13,8 @@
     $database = new dbConnect();
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    //$message=[];
+    $message = isset($_GET['message']) ? [$_GET['message']] : [];
+
     
     // Fetch options for dropdown
     function fetchOptions($dbh, $table, $idField, $nameField) {
@@ -44,13 +45,14 @@
     }
     
     // Render the form
-    function renderAddDeviceForm($deviceTypes, $osList, $message) {
+    function renderAddDeviceForm($deviceTypes, $osList, $message = []) {
+        if (!empty($message)) {
+            echo '<div style="padding:10px; color:green; background:white;">' 
+            . htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8') . 
+            '</div>';
+        }
         
         ?>
-         <div style="padding:10px; color:red; background:white;">
-            <?php if (!empty($message)) echo htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8'); ?>
-        </div>
-        
         <form method="post" action="">
             <label for="hostname">Hostname:</label>
             <input type="text" name="hostname" id="hostname"><br><br>
@@ -97,7 +99,7 @@
 
            
         
-        if ($ip_address == ''){
+        if (empty($ip_address)) {
             $ip_address = gethostbyname($hostname);
         }
                 
