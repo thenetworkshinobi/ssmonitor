@@ -13,8 +13,7 @@
     $database = new dbConnect();
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    // DECLARING EMPTY ARRAY OF ERRORS
-    $message = array();
+    //$message=[];
     
     // Fetch options for dropdown
     function fetchOptions($dbh, $table, $idField, $nameField) {
@@ -46,10 +45,10 @@
     
     // Render the form
     function renderAddDeviceForm($deviceTypes, $osList, $message) {
-        print_r($message);
+        
         ?>
-        <div style="padding:10px; color:red; background:white;">
-            <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
+         <div style="padding:10px; color:red; background:white;">
+            <?php if (!empty($message)) echo htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8'); ?>
         </div>
         
         <form method="post" action="">
