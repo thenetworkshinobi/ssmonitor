@@ -13,7 +13,7 @@
     $database = new dbConnect();
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    $message = isset($_GET['message']) ? [$_GET['message']] : [];
+   
 
     
     // Fetch options for dropdown
@@ -37,6 +37,7 @@
     function addDevice($dbh, $hostname, $ip_address, $typeID, $osID, $adminID) {
         try {
             $stmt = $dbh->prepare("INSERT INTO device (hostname, ip_address, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?)");
+            
             $stmt->execute([$hostname, $ip_address, $typeID, $osID, $adminID]);
             echo "Device added successfully!";
         } catch (PDOException $e) {
@@ -46,6 +47,7 @@
     
     // Render the form
     function renderAddDeviceForm($deviceTypes, $osList, $message = []) {
+        $message = isset($_GET['message']) ? [$_GET['message']] : [];
         if (!empty($message)) {
             echo '<div style="padding:10px; color:green; background:white;">' 
             . htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8') . 
@@ -82,7 +84,9 @@
     
             <button class="b1" type="submit">Add Device</button>
         </form>
+        
         <?php
+        $message = [];
     }
     
     // Main Logic
@@ -145,6 +149,7 @@
     }
     
     renderAddDeviceForm($deviceTypes, $osList, $message);
+    
     
     
     
