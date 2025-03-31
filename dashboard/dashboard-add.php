@@ -7,15 +7,14 @@
 ?>
 
 <h1> Add Hosts </h1>
-<div style="padding:10px; color:red; background:white;">
-            <?php if (!empty($message)) echo htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8'); ?>
-        </div>
+
 <?php
     // Connect to the database
     $database = new dbConnect();
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    //$message=[];
+    // DECLARING EMPTY ARRAY OF ERRORS
+    $message = array();
     
     // Fetch options for dropdown
     function fetchOptions($dbh, $table, $idField, $nameField) {
@@ -46,8 +45,12 @@
     }
     
     // Render the form
-    function renderAddDeviceForm($deviceTypes, $osList, $message=[]) {
+    function renderAddDeviceForm($deviceTypes, $osList, $message) {
+        print_r($message);
         ?>
+        <div style="padding:10px; color:red; background:white;">
+            <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
         
         <form method="post" action="">
             <label for="hostname">Hostname:</label>
@@ -76,7 +79,7 @@
                 <?php endforeach; ?>
             </select><br><br>
     
-            <button type="submit">Add Device</button>
+            <button class="b1" type="submit">Add Device</button>
         </form>
         <?php
     }
@@ -93,6 +96,8 @@
         $osID = $_POST['osID'] ?? '';
         $adminID = $_SESSION['id'] ?? 1;
 
+           
+        
         if ($ip_address == ''){
             $ip_address = gethostbyname($hostname);
         }
@@ -103,10 +108,7 @@
             exit();
         }
         else{
-            //Check for Existing Entry
-            //$database = new dbConnect();
-            //$dbh = $database->connect();
-            //$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+            
             try{
                 $host_find_sql = "SELECT * FROM device WHERE ip_address=:ip_address";
                 $host_find_stmt = $dbh->prepare($host_find_sql);
