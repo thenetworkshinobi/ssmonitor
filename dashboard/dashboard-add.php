@@ -36,10 +36,14 @@
     // Add a device
     function addDevice($dbh, $hostname, $ip_address, $typeID, $osID, $adminID) {
         try {
-            $stmt = $dbh->prepare("INSERT INTO device (hostname, ip_address, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?)");
-            
+            $stmt = $dbh->prepare("INSERT INTO device (hostname, ip_address, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?)");            
             $stmt->execute([$hostname, $ip_address, $typeID, $osID, $adminID]);
-            echo "Device added successfully!";
+            // Get the ID of the last inserted device
+            $lastDeviceID = $dbh->lastInsertId();
+            // Insert into the device_status table
+            $statusStmt = $dbh->prepare("INSERT INTO device_status (deviceID, statusID) VALUES (?, ?)");
+            $statusStmt->execute([$lastDeviceID, 1]);
+            echo "Device added successfully with status initialized!!";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

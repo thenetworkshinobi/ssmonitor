@@ -90,7 +90,7 @@ SELECT
     d.hostname,
     d.ip_address,
     dt.type_name AS device_type,
-    o.os_name AS OS,
+    o.os_name AS os,
     s.status AS latest_status
 FROM 
     device AS d

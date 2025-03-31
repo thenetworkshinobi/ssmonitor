@@ -58,13 +58,19 @@ class DeviceHandler {
     
         // Start output buffering
         ob_start();
+
+        if (!empty($message)){
+            echo '<div style="padding:10px; color:red; background:white;">';
+            echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); 
+        }
         ?>
-        <div style="padding:10px; color:red; background:white;">
-            <?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?>
+        
+           
         </div>
         <form action="" method="POST">
             <label for="hostname">Hostname to Remove:</label>
             <select id="hostname" name="hostname" required>
+            <option value="">--Select Device To Remove--</option>
                 <?php
                 try {
                     // Assuming $dbh is your PDO database connection
