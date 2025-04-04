@@ -167,7 +167,7 @@ ul.class li{
 .cards-container{
     display: flex;
     gap: 20px 20px;
-    min-height: 800px;
+    min-height: 50vh;
     width: auto;
     flex-wrap: wrap;
     justify-content: center;
@@ -180,6 +180,7 @@ ul.class li{
     display: grid;
     background-color: rgba(255, 255, 255, 0.5);
     min-width: 300px;
+    min-height: 170px;
     border: solid;
     border-color: rgb(255, 255, 255);
     border-width: 2px;
@@ -189,7 +190,7 @@ ul.class li{
     grid-template-rows: 1fr, 4fr;
     grid-template-areas: 
     "1 2"
-    "3 4";        
+    "3 4"; 
 }
 .card-container .card-items i.fa-solid.fa-circle-info{
     display: flex;
@@ -211,7 +212,36 @@ ul.class li{
     width: 200px;
     background-color: white;
 }
+.fb-cards{
+    position: relative;
+    top: 0;
+    left: 0;    
+    height: 100%;
+    border-radius: 10px;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+}
 
+/* THE PSUEDO CLASS CONTROLS THE FLIP ON MOUSEOVER AND MOUSEOUT */
+.fb-cards:hover{
+    transform: rotateY(180deg);
+  }
+.back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: solid;
+    border-color: #A8DADC;
+    border-width: 2px;
+    border-radius: 7px;
+    backface-visibility: hidden;
+    overflow: hidden;
+    background: #1D3557;
+    color: #fff;
+    text-align: center;
+    transform: rotateY(180deg);
+  }
 
 @media (max-width: 800px){
     .checkbtn{
