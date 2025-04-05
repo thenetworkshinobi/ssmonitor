@@ -148,6 +148,7 @@ main{
     justify-content: top;
     align-items: top;
     width: 100%;
+    gap: 20px;
 }
 form.login {
     display: flex;
@@ -182,7 +183,7 @@ ul.class li{
     min-width: 300px;
     min-height: 170px;
     border: solid;
-    border-color: rgb(255, 255, 255);
+    border-color: white;
     border-width: 2px;
     border-radius: 8px;
     padding: 8px;
@@ -190,7 +191,7 @@ ul.class li{
     grid-template-rows: 1fr, 4fr;
     grid-template-areas: 
     "1 2"
-    "3 4"; 
+    "3 4";
 }
 .card-container .card-items i.fa-solid.fa-circle-info{
     display: flex;
@@ -207,17 +208,12 @@ ul.class li{
     background-color: #1D3557;    
     border-radius: 3px;
 }
-.box{
-    height: 2000px;
-    width: 200px;
-    background-color: white;
-}
 .fb-cards{
     position: relative;
     top: 0;
     left: 0;    
     height: 100%;
-    border-radius: 10px;
+    box-shadow: 10px 10px 9px rgba(82, 116, 116, 0.3);
     transform-style: preserve-3d;
     transition: all 0.8s ease;
 }
@@ -233,15 +229,19 @@ ul.class li{
     width: 100%;
     border: solid;
     border-color: #A8DADC;
-    border-width: 2px;
-    border-radius: 7px;
+    border-width: 4px;
+    border-radius: 8px;
     backface-visibility: hidden;
     overflow: hidden;
     background: #1D3557;
-    color: #fff;
+    color: #FFD166;
     text-align: center;
     transform: rotateY(180deg);
   }
+.back-container{
+    height: 190px;
+
+}
 
 @media (max-width: 800px){
     .checkbtn{
