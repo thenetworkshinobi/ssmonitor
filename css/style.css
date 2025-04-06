@@ -155,11 +155,6 @@ form.login {
     flex-direction: column;
     align-items: center;
 }
-img{
-    max-width: 300px;
-    height: auto;
-}
-
 ul.class li{
     padding-block: 5px;
 }
@@ -191,7 +186,7 @@ ul.class li{
     grid-template-rows: 1fr, 4fr;
     grid-template-areas: 
     "1 2"
-    "3 4";
+    "3 4";    
 }
 .card-container .card-items i.fa-solid.fa-circle-info{
     display: flex;
@@ -216,12 +211,17 @@ ul.class li{
     box-shadow: 10px 10px 9px rgba(82, 116, 116, 0.3);
     transform-style: preserve-3d;
     transition: all 0.8s ease;
+    transform-origin: center;
+    z-index: 1; /* Base z-index */
 }
 
 /* THE PSUEDO CLASS CONTROLS THE FLIP ON MOUSEOVER AND MOUSEOUT */
-.fb-cards:hover{
-    transform: rotateY(180deg);
-  }
+.fb-cards:hover, .fb-cards:active{
+    transform: rotateY(180deg) scale(1.2);/* Scale the div by 110% */
+    z-index: 10; /* Roatated z-Index */
+    
+}
+
 .back{
     position: absolute;
     top: 0;
@@ -237,6 +237,8 @@ ul.class li{
     color: #FFD166;
     text-align: center;
     transform: rotateY(180deg);
+    z-index: 10;
+    
   }
 .back-container{
     height: 190px;

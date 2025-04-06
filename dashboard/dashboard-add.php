@@ -57,7 +57,7 @@
             . htmlspecialchars(implode('<br>', $message), ENT_QUOTES, 'UTF-8') . 
             '</div>';
         }
-        
+          
         ?>
         <form method="post" action="">
             <label for="hostname">Hostname:</label>
@@ -105,12 +105,14 @@
         $osID = $_POST['osID'] ?? '';
         $adminID = $_SESSION['id'] ?? 1;
 
-           
+        if (empty($hostname)){
+            $hostname = $ip_address;
+        }
         
         if (empty($ip_address)) {
             $ip_address = gethostbyname($hostname);
         }
-                
+          
         if (!filter_var($ip_address, FILTER_VALIDATE_IP)) {
             $message[] = "Unable to resolve the IP address for the given hostname.";
             header("Location: " . $host . "/dashboard/dashboard-add.php?action=add-device&message=" . urlencode($message[0]));
