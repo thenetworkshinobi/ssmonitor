@@ -30,11 +30,6 @@
         $get_devices_sql = "SELECT * FROM recent_device_status";
         $get_devices_result = $dbh->query($get_devices_sql);
 
-            // SNMP OIDs for CPU, RAM, and Network Throughput
-        $cpu_oid = "1.3.6.1.4.1.2021.11.10.0"; 
-        $ram_oid = "1.3.6.1.4.1.2021.4.6.0";  
-        $network_oid = "1.3.6.1.2.1.2.2.1.10.1";
-
         // Check if the query returns rows
         if ($get_devices_result && $get_devices_result->rowCount() > 0) {
             // Loop through each row
@@ -77,17 +72,12 @@
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
                             if ($row->os == "Linux"){
                                 // Fetch real-time data using SNMP
-                                $cpu_usage = snmpget($row['ip_address'], "ssmonitor", $cpu_oid);
-                                $cpu_usage = preg_replace('/[^0-9.]/', '', $cpu_usage);
-                                $ram_usage = snmpget($row['ip_address'], "ssmonitor", $ram_oid);
-                                $ram_usage = preg_replace('/[^0-9.]/', '', $ram_usage);
-                                $network_throughput = snmpget($row['ip_address'], "ssmonitor", $network_oid);
-                                $network_throughput = preg_replace('/[^0-9.]/', '', $network_throughput);
+                                
                                 echo '
                                     <ul>
-                                        <li>CPU Usage: ' . htmlspecialchars($cpu_usage) . '%</li>
-                                        <li>RAM Usage: ' . htmlspecialchars($ram_usage) . ' KB</li>
-                                        <li>Network Throughput: ' . htmlspecialchars($network_throughput)  . ' bps</li>
+                                        <li>CPU Usage: %</li>
+                                        <li>RAM Usage:  KB</li>
+                                        <li>Network Throughput:  bps</li>
                                     </ul>';
                             }
                             
