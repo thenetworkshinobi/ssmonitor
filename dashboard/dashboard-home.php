@@ -75,11 +75,14 @@
                     <div class="back">
                         <div class="back-container">
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->os === "Linux"){
+                            if ($row->os == "Linux"){
                                 // Fetch real-time data using SNMP
                                 $cpu_usage = snmpget($row['ip_address'], "ssmonitor", $cpu_oid);
+                                $cpu_usage = preg_replace('/[^0-9.]/', '', $cpu_usage);
                                 $ram_usage = snmpget($row['ip_address'], "ssmonitor", $ram_oid);
+                                $ram_usage = preg_replace('/[^0-9.]/', '', $ram_usage);
                                 $network_throughput = snmpget($row['ip_address'], "ssmonitor", $network_oid);
+                                $network_throughput = preg_replace('/[^0-9.]/', '', $network_throughput);
                                 echo '
                                     <ul>
                                         <li>CPU Usage: ' . htmlspecialchars($cpu_usage) . '%</li>
