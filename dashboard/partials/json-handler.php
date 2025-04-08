@@ -22,9 +22,9 @@ function getDeviceDataFromWeb($url, $searchIp) {
         if (isset($device['ip_address']) && $device['ip_address'] === $searchIp) {
             // Return the required data
             return [
-                "cpu_usage" => $device['cpu_usage'] ?? "Unavailable",
-                "ram_usage_percentage" => $device['ram_usage_percentage'] ?? "Unavailable",
-                "network_throughput" => $device['network_throughput'] ?? "Unavailable"
+                "cpu_usage" => $device['cpu_usage'] ?? "0",
+                "ram_usage_percentage" => $device['ram_usage_percentage'] ?? "0",
+                "network_throughput" => $device['network_throughput'] ?? "0"
             ];
         }
     }
