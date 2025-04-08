@@ -71,7 +71,7 @@
                     <div class="back">
                         <div class="back-container">
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->rfc1918 === TRUE){
+                            if ($row->rfc1918 == True){
                                 // Fetch real-time data using SNMP
                                 $searchIp = htmlspecialchars($row->ip_address);
                                 
@@ -90,7 +90,7 @@
             }                
         }else {
             echo "Please add hosts to monitor";
-            echo "</div>";
+echo "</div>";
         }
     } catch (PDOException $e) {
         // Handle exceptions related to database operations
