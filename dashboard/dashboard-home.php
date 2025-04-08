@@ -3,17 +3,17 @@
     require_once("../partials/header.php");
     require_once("partials/login-verify.php");
     require_once('../config/db-connect.php');
+    require_once("partials/json-handler.php");
 ?>
 <?php
     $database = new dbConnect();
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  
-    
+    $snmpIP = [];
 
 ?>
 <h1> Hosts</h1>
-<div class="cards-container">
 <div class="buttons">
     <div class="addremove">
         <a href ='dashboard-add.php'>
@@ -24,54 +24,82 @@
         </a>              
     </div>
 </div>
-<?php
-try {
-    // SQL query to fetch data
-    $get_devices_sql = "SELECT hostname, ip_address, device_type, os, device_status FROM device_list";
-    $get_devices_result = $dbh->query($get_devices_sql);
-    // Check if the query returns rows
-    if ($get_devices_result && $get_devices_result->rowCount() > 0) {
-        // Loop through each row
-        while ($row = $get_devices_result->fetch()) {
-            // Generate HTML block
-            echo '
-            <div class="card-container">
-                <div class="card-items" style="1">
-                    <i class="fa-solid fa-server"></i>
-                </div>
-                <div class="card-items" style="2">
-                    <i class="fa-solid fa-circle-info"></i>
-                </div>
-                <div class="card-items" style="3">
-                    <ul class="card">
-                        <li>Hostname:</li>
-                        <li>IP Address:</li>
-                        <li>Device Type:</li>
-                        <li>OS:</li>
-                        <li>Status:</li>
-                    </ul>
-                </div>
-                <div class="card-items" style="4">
-                    <ul class="card">
-                        <li>' . htmlspecialchars($row->hostname) . '</li>
-                        <li>' . htmlspecialchars($row->ip_address) . '</li>
-                        <li>' . htmlspecialchars($row->device_type) . '</li>
-                        <li>' . htmlspecialchars($row->os) . '</li>
-                        <li>' . htmlspecialchars($row->device_status) . '</li>
-                    </ul>
-                </div>
-            </div>';
-        }
-    } else {
-        echo "Please add hosts to monitor";
-    }
-} catch (PDOException $e) {
-    // Handle exceptions related to database operations
-    echo "An error occurred: " . $e->getMessage();
-}
-//$conn->close();
+<div class="cards-container">    
+    <?php
+    try {
+        // SQL query to fetch data
+        $get_devices_sql = "SELECT * FROM recent_device_status";
+        $get_devices_result = $dbh->query($get_devices_sql);
 
-?>
+        // Check if the query returns rows
+        if ($get_devices_result && $get_devices_result->rowCount() > 0) {
+            // Loop through each row
+            while ($row = $get_devices_result->fetch()) {
+
+                
+                
+
+                // Generate HTML block
+                echo '
+                <div class="fb-cards">                    
+                    <div class="card-container">
+                        <div class="card-items" style="1">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <div class="card-items" style="2">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <div class="card-items" style="3">
+                            <ul class="card">
+                                <li>Hostname:</li>
+                                <li>IP Address:</li>
+                                <li>Device Type:</li>
+                                <li>OS:</li>
+                                <li>Status:</li>
+                            </ul>
+                        </div>
+                        <div class="card-items" style="4">
+                            <ul class="card">
+                                <li>' . htmlspecialchars($row->hostname) . '</li>
+                                <li>' . htmlspecialchars($row->ip_address) . '</li>
+                                <li>' . htmlspecialchars($row->device_type) . '</li>
+                                <li>' . htmlspecialchars($row->os) . '</li>
+                                <li>' . htmlspecialchars($row->latest_status) . '</li>
+                            </ul>
+                        </div>
+                    </div>                    
+                    <div class="back">
+                        <div class="back-container">
+                            <h1>'. htmlspecialchars($row->hostname) .'</h1>';
+                            if ($row->rfc1918 === TRUE){
+                                // Fetch real-time data using SNMP
+                                $searchIp = htmlspecialchars($row->ip_address);
+                                
+                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp);
+                                echo '
+                                    <ul>
+                                        <li>CPU Usage: ' . $deviceData['cpu_usage'] . '%</li>
+                                        <li>RAM Usage: '  . $deviceData['ram_usage_percentage'] .  '%</li>
+                                        <li>Network Throughput: ' . $deviceData['network_throughput'] .  ' MB/s</li>
+                                    </ul>';
+                            }
+                            
+ echo '                 </div>
+                    </div>
+            </div>';
+            }                
+        }else {
+            echo "Please add hosts to monitor";
+            echo "</div>";
+        }
+    } catch (PDOException $e) {
+        // Handle exceptions related to database operations
+        echo "An error occurred: " . $e->getMessage();
+    }
+    //$conn->close();
+
+    ?>
+    
 
 
 

@@ -56,7 +56,7 @@ if (isset($_POST['signup'])) {
         $dbh1 = $database1->connect();
         $dbh1->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
          // CHECK FOR THE USERNAME THAT ALREADY REGISTED OR NOT
-        $username_finding_sql = "SELECT * FROM admins WHERE username=:username";
+        $username_finding_sql = "SELECT * FROM adminuser WHERE username=:username";
         $username_finding_stmt = $dbh1->prepare($username_finding_sql);
         $username_finding_stmt->bindParam("username", $username);
         $username_finding_stmt->execute();
@@ -66,7 +66,7 @@ if (isset($_POST['signup'])) {
         $dbh2 = $database2->connect();
         $dbh2->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         // CHECK FOR THE EMAIL THAT ALREADY REGISTED OR NOT
-        $email_finding_sql = "SELECT * FROM admins WHERE email=:email";
+        $email_finding_sql = "SELECT * FROM adminuser WHERE email=:email";
         $email_finding_stmt = $dbh2->prepare($email_finding_sql);
         $email_finding_stmt->bindParam("email", $email);
         $email_finding_stmt->execute();
@@ -79,7 +79,7 @@ if (isset($_POST['signup'])) {
         if (empty($email_result) && empty($username_result)) {
             //print_r($email_result);
             //die();
-            $signup_sql = "INSERT INTO admins(fname, lname, username, email, password) VALUES (:fname, :lname, :username, :email, :password)";
+            $signup_sql = "INSERT INTO adminuser(fname, lname, username, email, password) VALUES (:fname, :lname, :username, :email, :password)";
             $signup_stmt = $dbh1->prepare($signup_sql);
             $signup_stmt->bindParam("fname", $fname);
             $signup_stmt->bindParam("lname", $lname);

@@ -26,9 +26,9 @@ if(isset($_POST['totp'])){
         $database = new dbConnect();
         $dbh = $database->connect();
         $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-        $id_secret_finding_sql = "SELECT id_secret FROM admins WHERE id = :id";
+        $id_secret_finding_sql = "SELECT id_secret FROM adminuser WHERE adminID = :adminID";
         $id_secret_finding_stmt = $dbh->prepare($id_secret_finding_sql);
-        $id_secret_finding_stmt->bindParam(':id', $id);
+        $id_secret_finding_stmt->bindParam(':adminID', $id);
         $id_secret_finding_stmt->execute();
         $id_secret_finding_result = $id_secret_finding_stmt->fetch();
 

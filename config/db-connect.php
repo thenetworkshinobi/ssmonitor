@@ -3,9 +3,9 @@
 
 class dbConnect
 {
-    private $dbhost = "192.168.100.232";
+    private $dbhost = "ssmonitor";
     //private $dbhost = "td-jgriffith-l";
-    private $dbname = "sdash2";
+    private $dbname = "ssmonitor";
     private $dbuser = "ssadminuser";
     private $dbpassword = "Password1";
     public $dbh = null;

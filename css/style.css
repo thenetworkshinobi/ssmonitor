@@ -148,17 +148,13 @@ main{
     justify-content: top;
     align-items: top;
     width: 100%;
+    gap: 20px;
 }
 form.login {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-img{
-    max-width: 300px;
-    height: auto;
-}
-
 ul.class li{
     padding-block: 5px;
 }
@@ -167,7 +163,7 @@ ul.class li{
 .cards-container{
     display: flex;
     gap: 20px 20px;
-    min-height: 800px;
+    min-height: 50vh;
     width: auto;
     flex-wrap: wrap;
     justify-content: center;
@@ -180,8 +176,9 @@ ul.class li{
     display: grid;
     background-color: rgba(255, 255, 255, 0.5);
     min-width: 300px;
+    min-height: 170px;
     border: solid;
-    border-color: rgb(255, 255, 255);
+    border-color: white;
     border-width: 2px;
     border-radius: 8px;
     padding: 8px;
@@ -189,7 +186,7 @@ ul.class li{
     grid-template-rows: 1fr, 4fr;
     grid-template-areas: 
     "1 2"
-    "3 4";        
+    "3 4";    
 }
 .card-container .card-items i.fa-solid.fa-circle-info{
     display: flex;
@@ -206,12 +203,47 @@ ul.class li{
     background-color: #1D3557;    
     border-radius: 3px;
 }
-.box{
-    height: 2000px;
-    width: 200px;
-    background-color: white;
+.fb-cards{
+    position: relative;
+    top: 0;
+    left: 0;    
+    height: 100%;
+    box-shadow: 10px 10px 9px rgba(82, 116, 116, 0.3);
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+    transform-origin: center;
+    z-index: 1; /* Base z-index */
 }
 
+/* THE PSUEDO CLASS CONTROLS THE FLIP ON MOUSEOVER AND MOUSEOUT */
+.fb-cards:hover, .fb-cards:active{
+    transform: rotateY(180deg) scale(1.2);/* Scale the div by 110% */
+    z-index: 10; /* Roatated z-Index */
+    
+}
+
+.back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: solid;
+    border-color: #A8DADC;
+    border-width: 4px;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    overflow: hidden;
+    background: #1D3557;
+    color: #FFD166;
+    text-align: center;
+    transform: rotateY(180deg);
+    z-index: 10;
+    
+  }
+.back-container{
+    height: 190px;
+
+}
 
 @media (max-width: 800px){
     .checkbtn{
