@@ -34,10 +34,10 @@
     }
     
     // Add a device
-    function addDevice($dbh, $hostname, $ip_address, $typeID, $osID, $adminID) {
+    function addDevice($dbh, $hostname, $ip_address, $rfc1918, $typeID, $osID, $adminID) {
         try {
-            $stmt = $dbh->prepare("INSERT INTO device (hostname, ip_address, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?)");            
-            $stmt->execute([$hostname, $ip_address, $typeID, $osID, $adminID]);
+            $stmt = $dbh->prepare("INSERT INTO device (hostname, ip_address, rfc1918, typeID, osID, adminID) VALUES (?, ?, ?, ?, ?, ?)");            
+            $stmt->execute([$hostname, $ip_address, $rfc1918, $typeID, $osID, $adminID]);
             // Get the ID of the last inserted device
             $lastDeviceID = $dbh->lastInsertId();
             // Insert into the device_status table
@@ -48,7 +48,30 @@
             echo "Error: " . $e->getMessage();
         }
     }
+
+    function isPrivateIp($ip_address) {    
+        // Define private IP ranges
+        $privateIpRanges = [
+            '10.0.0.0' => '10.255.255.255',        // Class A
+            '172.16.0.0' => '172.31.255.255',      // Class B
+            '192.168.0.0' => '192.168.255.255',    // Class C
+            '127.0.0.0' => '127.255.255.255'       // Loopback
+        ];
     
+        // Convert the IP address to long format for comparison
+        $ipLong = ip2long($ip_address);
+    
+        // Check against private IP ranges
+        foreach ($privateIpRanges as $startIp => $endIp) {
+            $startIpLong = ip2long($startIp);
+            $endIpLong = ip2long($endIp);
+    
+            if ($ipLong >= $startIpLong && $ipLong <= $endIpLong) {
+                return TRUE;
+            }
+        } 
+        return FALSE;
+    }
     // Render the form
     function renderAddDeviceForm($deviceTypes, $osList, $message = []) {
         $message = isset($_GET['message']) ? [$_GET['message']] : [];
@@ -112,14 +135,14 @@
         if (empty($ip_address)) {
             $ip_address = gethostbyname($hostname);
         }
-          
+        // Validate the IP address
         if (!filter_var($ip_address, FILTER_VALIDATE_IP)) {
             $message[] = "Unable to resolve the IP address for the given hostname.";
             header("Location: " . $host . "/dashboard/dashboard-add.php?action=add-device&message=" . urlencode($message[0]));
             exit();
         }
         else{
-            
+            $rfc1918 = isPrivateIp($ip_address);
             try{
                 $host_find_sql = "SELECT * FROM device WHERE ip_address=:ip_address";
                 $host_find_stmt = $dbh->prepare($host_find_sql);
@@ -135,7 +158,7 @@
             
             if (empty($host_find_result)){
                 // Insert data into MySQL table
-                addDevice($dbh, $hostname, $ip_address, $typeID, $osID, $adminID);
+                addDevice($dbh, $hostname, $ip_address, $rfc1918, $typeID, $osID, $adminID);
 
                 $message[] = "New device registered successfully";
                 header("Location: " .$host . "/dashboard/dashboard-add.php?action=add-device&message=" . $message[0]);

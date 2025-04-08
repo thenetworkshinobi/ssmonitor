@@ -46,6 +46,7 @@ INSERT INTO os (os_name) VALUES
 CREATE TABLE device (
     deviceID INT AUTO_INCREMENT PRIMARY KEY,
     ip_address VARCHAR(45) NOT NULL,
+    rfc1918 BOOLEAN NOT NULL,
     hostname VARCHAR(255) NOT NULL,
     typeID INT NOT NULL,
     osID INT NOT NULL,
@@ -89,6 +90,7 @@ CREATE OR REPLACE VIEW recent_device_status AS
 SELECT 
     d.hostname,
     d.ip_address,
+    d.rfc1918,
     dt.type_name AS device_type,
     o.os_name AS os,
     s.status AS latest_status
