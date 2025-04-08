@@ -3,6 +3,7 @@
     require_once("../partials/header.php");
     require_once("partials/login-verify.php");
     require_once('../config/db-connect.php');
+    require_once("partials/json-handler.php");
 ?>
 <?php
     $database = new dbConnect();
@@ -72,12 +73,14 @@
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
                             if ($row->os == "Linux"){
                                 // Fetch real-time data using SNMP
+                                $searchIp = htmlspecialchars($row->ip_address);
                                 
+                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp);
                                 echo '
                                     <ul>
-                                        <li>CPU Usage: %</li>
-                                        <li>RAM Usage:  KB</li>
-                                        <li>Network Throughput:  bps</li>
+                                        <li>CPU Usage: ' . $deviceData['cpu_usage'] . '%</li>
+                                        <li>RAM Usage: '  . $deviceData['ram_usage_percentage'] .  '%</li>
+                                        <li>Network Throughput: ' . $deviceData['network_throughput'] .  ' MB/s</li>
                                     </ul>';
                             }
                             
