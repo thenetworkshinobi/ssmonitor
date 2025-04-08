@@ -176,7 +176,7 @@
     
         
     }
-    
+    $message = [];
     renderAddDeviceForm($deviceTypes, $osList, $message);
     
     
