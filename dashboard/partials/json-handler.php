@@ -33,7 +33,7 @@ function getDeviceDataFromWeb($url, $searchIp) {
     return ["error" => "No device found with IP address: $searchIp"];
 }
 // Example usage
-$jsonUrl = "http://ssmonitor/data/linux_devices_data.json"; // Path to the JSON file
+$jsonUrl = "http://ssmonitor/data/devices_data.json"; // Path to the JSON file
 #$searchIp = "192.168.100.245";         // IP address to search for
 
 ?>
