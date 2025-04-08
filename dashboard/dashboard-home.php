@@ -71,7 +71,7 @@
                     <div class="back">
                         <div class="back-container">
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->os == "Linux"){
+                            if ($row->rfc1918 === TRUE){
                                 // Fetch real-time data using SNMP
                                 $searchIp = htmlspecialchars($row->ip_address);
                                 
