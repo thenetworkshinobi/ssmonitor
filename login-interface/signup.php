@@ -3,6 +3,7 @@ include_once("../config/variables.php");
 include_once("../config/db-connect.php");
 
 
+
 if (isset($_POST['signup'])) {
     // echo $_POST['fname'];
     $fname = htmlspecialchars($_POST['fname']);
@@ -87,8 +88,10 @@ if (isset($_POST['signup'])) {
             $signup_stmt->bindParam("email", $email);
             $signup_stmt->bindParam("password", md5($password));
             $signup_stmt->execute();
+            session_start();
+            $_SESSION['UN'] = $username;
             $message[] = "User has registered successfully";
-            header("Location: " . $host . "/index.php?action=signin&message=" . $message[0]);
+            header("Location: " . $host . "/login-interface/2fa-generate.php");
             exit();
 
             // IF THERE THE EMAIL IS NOT REGISTED 
