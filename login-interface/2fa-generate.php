@@ -1,12 +1,14 @@
 <?php
-    require_once '../GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php';
+    require_once("../GoogleAuthenticator/PHPGangsta/GoogleAuthenticator.php");
     include_once("../config/variables.php");
     include_once("../config/db-connect.php");
     require_once("../partials/header.php");
 
-    if(isset($_SESSION['UN'])){
-        $username = $_SESSION['UN'];
+    //if(isset($_SESSION['UN'])){
+        //$username = $_SESSION['UN'];
+        $username= 'testuser3';
         try{
+            /*
             $database = new dbConnect();
             $dbh = $database->connect();
             $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
@@ -15,20 +17,24 @@
             $username_finding_stmt->bindParam(":username", $username);
             $username_finding_stmt->execute();
             $username_result = $username_finding_stmt->fetch();
-
-            if (!empty($username_result)) {
+            */
+            if (empty($username_result)) {
+                $message[] = "An user is not registered";
+                header("Location: " . $host . "/index.php?action=signup&message=" . $message[0]);
+                exit();
+            }else {
                 $ga = new PHPGangsta_GoogleAuthenticator();
                 $secret = $ga->createSecret();
 
-                echo "Secret is: ". $secret ."\n\n";
+                //echo "Secret is: ". $secret ."\n\n";
 
                 $qrCodeUrl = $ga->getQRCodeGoogleUrl('Blog', $secret);
-                echo "Google Charts URL for the QR-Code: ".$qrCodeUrl."\n\n";
+                //echo "Google Charts URL for the QR-Code: ".$qrCodeUrl."\n\n";
                 
                 echo "<img src='" . $qrCodeUrl . "'>";
 
                 $oneCode = $ga->getCode($secret);
-                echo "Checking Code ". $oneCode . " and Secret ". $secret .":\n";
+                //echo "Checking Code ". $oneCode . " and Secret ". $secret .":\n";
 
                 $checkResult = $ga->verifyCode($secret, $oneCode, 2);    // 2 = 2*30sec clock tolerance
                 if ($checkResult) {
@@ -53,12 +59,9 @@
         } catch (PDOException $e) {
             // Catch and display database errors
             echo "Database error: " . $e->getMessage();
-        }
-    }else {
-        $message[] = "An user is not registered";
-        header("Location: " . $host . "/index.php?action=signup&message=" . $message[0]);
-        exit();
-    }
+        }   
+        
+    //}
 
 
     
