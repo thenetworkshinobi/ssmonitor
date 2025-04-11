@@ -114,3 +114,5 @@ WHERE
 
 
 https://stackoverflow.com/questions/62564439/mysql-mariadb-server-raspberry-pi-remote-access 
+
+https://stackoverflow.com/questions/69029213/my-mysql-my-cnf-file-doesnt-contain-bind-address-on-it-and-when-i-put-it-in-the
