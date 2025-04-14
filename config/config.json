@@ -1,0 +1,9 @@
+{
+    "database":{
+        "hostname1": "ssmonitor",
+        "hostname2": "td-jgriffith-l",
+        "username": "ssadminuser",
+        "password": "Password1",
+        "database" :"ssmonitor"
+    }
+}
