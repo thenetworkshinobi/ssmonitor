@@ -22,9 +22,9 @@ function getDeviceDataFromWeb($url, $searchIp) {
         if (isset($device['ip_address']) && $device['ip_address'] === $searchIp) {
             // Return the required data
             return [
-                "cpu_usage" => $device['cpu_usage'] ?? "0",
-                "ram_usage_percentage" => $device['ram_usage_percentage'] ?? "0",
-                "network_throughput" => $device['network_throughput'] ?? "0"
+                "cpu_usage" => $device["cpu_usage"] ?? "0",
+                "ram_usage_percentage" => $device["ram_usage_percentage"] ?? "0",
+                "network_throughput" => $device["network_throughput"] ?? "0"
             ];
         }
     }
@@ -33,7 +33,7 @@ function getDeviceDataFromWeb($url, $searchIp) {
     return ["error" => "No device found with IP address: $searchIp"];
 }
 // Example usage
-$jsonUrl = "http://ssmonitor/data/devices_data.json"; // Path to the JSON file
+$jsonUrl = "http://dragon-zord/ssmonitor/received_data.json"; // Path to the JSON file
 #$searchIp = "192.168.100.245";         // IP address to search for
 
 ?>

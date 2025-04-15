@@ -71,16 +71,16 @@
                     <div class="back">
                         <div class="back-container">
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->rfc1918 == True){
+                            if ($row->rfc1918 === TRUE){
                                 // Fetch real-time data using SNMP
                                 $searchIp = htmlspecialchars($row->ip_address);
                                 
                                 $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp);
                                 echo '
                                     <ul>
-                                        <li>CPU Usage: ' . $deviceData['cpu_usage'] . '%</li>
-                                        <li>RAM Usage: '  . $deviceData['ram_usage_percentage'] .  '%</li>
-                                        <li>Network Throughput: ' . $deviceData['network_throughput'] .  ' MB/s</li>
+                                        <li>CPU Usage: ' . $deviceData["cpu_usage"] . '%</li>
+                                        <li>RAM Usage: '  . $deviceData["ram_usage_percentage"] .  '%</li>
+                                        <li>Network Throughput: ' . $deviceData["network_throughput"] .  ' MB/s</li>
                                     </ul>';
                             }
                             
@@ -90,7 +90,7 @@
             }                
         }else {
             echo "Please add hosts to monitor";
-echo "</div>";
+            echo "</div>";
         }
     } catch (PDOException $e) {
         // Handle exceptions related to database operations
