@@ -5,6 +5,8 @@
     require_once('../config/db-connect.php');
     require_once("partials/json-handler.php");
 ?>
+
+
 <?php
     $database = new dbConnect();
     $dbh = $database->connect();
@@ -69,19 +71,46 @@
                     </div>                    
                     <div class="back">
                         <div class="back-container">
-                            <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->rfc1918 == TRUE){
-                                // Fetch real-time data using SNMP
-                                $searchIp = htmlspecialchars($row->ip_address);
-                                
-                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp) ?? [];
-                                
-                                echo '
-                                    <ul>
-                                        <li>CPU Usage: ' . ($deviceData["cpu_usage"] ?? "unavailable") . '%</li>
-                                        <li>RAM Usage: '  . ($deviceData["ram_usage_percentage"] ?? "unavailable") .  '%</li>
-                                        <li>Network Throughput: ' . ($deviceData["network_throughput"] ?? "unavailable") .  ' MB/s</li>
-                                    </ul>';
+                            <h1>' . htmlspecialchars($row->hostname) ?? [] ;
+                            echo '</h1>';
+                            if ($row->rfc1918 == TRUE){ ?>
+                                 <ul id="device-data">
+                                    <li>CPU Usage: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-cpu-usage">Loading...</span>%</li>
+                                    <li>RAM Usage: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-ram-usage">Loading...</span>%</li>
+                                    <li>Network Throughput: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-network-throughput">Loading...</span> MB/s</li>
+                                </ul>
+
+                                <?php $sanitizedIpAddress = htmlspecialchars($row->ip_address, ENT_QUOTES, 'UTF-8'); ?>
+                                <script>
+                                    function updateDeviceData() {
+                                        const searchIp = "<?php echo $sanitizedIpAddress; ?>";
+
+                                        fetch(`getdevicedata.php?ip_address=${encodeURIComponent(searchIp)}`)
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                const cpuElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-cpu-usage');
+                                                const ramElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-ram-usage');
+                                                const networkElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-throughput');
+
+                                                if (cpuElement) cpuElement.textContent = data.cpu_usage ?? "unavailable";
+                                                if (ramElement) ramElement.textContent = data.ram_usage_percentage ?? "unavailable";
+                                                if (networkElement) networkElement.textContent = data.network_throughput ?? "unavailable";
+                                            })
+                                            .catch(error => console.error('Error fetching device data:', error));
+                                    }
+
+                                    // Update device data every 1 seconds
+                                    setInterval(updateDeviceData, 1000);
+
+                                    // Initial load
+                                    updateDeviceData();
+                                </script>
+                            <?php
                             }
                             
  echo '                 </div>
