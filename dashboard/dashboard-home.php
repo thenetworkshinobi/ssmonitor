@@ -10,8 +10,7 @@
     $dbh = $database->connect();
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  
-    $snmpIP = [];
-
+    $jsonUrl = "http://dragon-zord/ssmonitor/received_data.json";
 ?>
 <h1> Hosts</h1>
 <div class="buttons">
@@ -71,16 +70,17 @@
                     <div class="back">
                         <div class="back-container">
                             <h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->rfc1918 === TRUE){
+                            if ($row->rfc1918 == TRUE){
                                 // Fetch real-time data using SNMP
                                 $searchIp = htmlspecialchars($row->ip_address);
                                 
-                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp);
+                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp) ?? [];
+                                
                                 echo '
                                     <ul>
-                                        <li>CPU Usage: ' . $deviceData["cpu_usage"] . '%</li>
-                                        <li>RAM Usage: '  . $deviceData["ram_usage_percentage"] .  '%</li>
-                                        <li>Network Throughput: ' . $deviceData["network_throughput"] .  ' MB/s</li>
+                                        <li>CPU Usage: ' . ($deviceData["cpu_usage"] ?? "unavailable") . '%</li>
+                                        <li>RAM Usage: '  . ($deviceData["ram_usage_percentage"] ?? "unavailable") .  '%</li>
+                                        <li>Network Throughput: ' . ($deviceData["network_throughput"] ?? "unavailable") .  ' MB/s</li>
                                     </ul>';
                             }
                             

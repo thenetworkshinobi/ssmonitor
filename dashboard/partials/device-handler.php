@@ -49,7 +49,7 @@ class DeviceHandler {
                     $message = "Device and all associated entries removed successfully.";
                 } else {
                     $message = "Error: Hostname not found.";
-                    $dbh->rollBack(); // Rollback transaction if deviceID retrieval fails.
+                    $dbh1->rollBack(); // Rollback transaction if deviceID retrieval fails.
                 }
             } catch (PDOException $e) {
                 $message = "Error: " . $e->getMessage();
