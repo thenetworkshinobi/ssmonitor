@@ -71,7 +71,8 @@
                     </div>                    
                     <div class="back">
                         <div class="back-container">
-                            <h1>' . htmlspecialchars($row->hostname) ?? [] . '</h1>';
+                            <h1>' . htmlspecialchars($row->hostname) ?? [] ;
+                            echo '</h1>';
                             if ($row->rfc1918 == TRUE){ ?>
                                  <ul id="device-data">
                                     <li>CPU Usage: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-cpu-usage">Loading...</span>%</li>
@@ -103,26 +104,13 @@
                                             .catch(error => console.error('Error fetching device data:', error));
                                     }
 
-                                    // Update device data every 5 seconds
-                                    setInterval(updateDeviceData, 5000);
+                                    // Update device data every 1 seconds
+                                    setInterval(updateDeviceData, 1000);
 
                                     // Initial load
                                     updateDeviceData();
                                 </script>
                             <?php
-                            
-                            /*<h1>'. htmlspecialchars($row->hostname) .'</h1>';
-                            if ($row->rfc1918 == TRUE){
-                                // Fetch real-time data using SNMP
-                                $searchIp = htmlspecialchars($row->ip_address);
-                                                                
-                                $deviceData = getDeviceDataFromWeb($jsonUrl, $searchIp) ?? [];
-                                echo '
-                                    <ul>
-                                        <li>CPU Usage: ' . ($deviceData["cpu_usage"] ?? "unavailable") . '%</li>
-                                        <li>RAM Usage: '  . ($deviceData["ram_usage_percentage"] ?? "unavailable") .  '%</li>
-                                        <li>Network Throughput: ' . ($deviceData["network_throughput"] ?? "unavailable") .  ' MB/s</li>
-                                    </ul>';*/
                             }
                             
  echo '                 </div>
