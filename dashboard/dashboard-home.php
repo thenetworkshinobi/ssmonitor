@@ -5,6 +5,23 @@
     require_once('../config/db-connect.php');
     require_once("partials/json-handler.php");
 ?>
+<script>
+    function fetchData() {
+        fetch('getEnvData.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("temperature").innerText = `Temperature: ${data.temperature}°C`;
+                document.getElementById("humidity").innerText = `Humidity: ${data.humidity}%`;            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+
+    // Refresh the data every second
+    setInterval(fetchData, 1000);
+
+    // Initial fetch when the page loads
+    window.onload = fetchData;
+</script>
+
 
 
 <?php
@@ -13,8 +30,13 @@
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  
     $jsonUrl = "http://dragon-zord/ssmonitor/received_data.json";
+    
 ?>
 <h1> Hosts</h1>
+<div class="env">    
+    <div class="data" id="temperature">Loading...</div>
+    <div class="data" id="humidity">Loading...</div>
+</div>
 <div class="buttons">
     <div class="addremove">
         <a href ='dashboard-add.php'>
