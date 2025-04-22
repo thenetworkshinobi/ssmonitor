@@ -81,8 +81,8 @@ CREATE TABLE device_status (
 -- Create the environment table
 CREATE TABLE environment (
     environmentID INT AUTO_INCREMENT PRIMARY KEY,
-    temperature DOUBLE(3, 2) NOT NULL,
-    humidity TINYINT(3) NOT NULL,
+    temperature float(4, 1) NOT NULL,
+    humidity float(3,1) NOT NULL,
     updateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -111,6 +111,19 @@ WHERE
         WHERE ds_inner.deviceID = d.deviceID
     );
 
+CREATE EVENT delete_old_device_status
+ON SCHEDULE EVERY 1 DAY
+DO
+    DELETE FROM device_status
+    WHERE updateTime < NOW() - INTERVAL 1 MONTH;
+
+CREATE EVENT delete_old_environment_data
+ON SCHEDULE EVERY 1 DAY
+DO
+    DELETE FROM environment
+    WHERE updateTime < NOW() - INTERVAL 1 MONTH;
+
+SET GLOBAL event_scheduler = ON;
 
 
 https://stackoverflow.com/questions/62564439/mysql-mariadb-server-raspberry-pi-remote-access 
