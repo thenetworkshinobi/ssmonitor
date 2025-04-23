@@ -21,12 +21,17 @@ $base = dirname(dirname(__FILE__));
 </head>
 
 <body>
-    <nav>
+    <nav>        
         <input type="checkbox" id="check">
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <label class="logo"><a href="<?php echo $host; ?>/?action=index.php">Shinobi Dashboard</a></label>
+        <label class="logo">
+            <span>
+                <a href="<?php echo $host; ?>/?action=index.php"> <img src="<?php echo $host; ?>/images/logo.png" alt="" height="100"> Shinobi Dashboard</a>
+            </span>      
+            
+        </label>
         <ul>
             
                 <?php
