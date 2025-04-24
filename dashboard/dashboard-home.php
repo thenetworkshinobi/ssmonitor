@@ -5,6 +5,23 @@
     require_once('../config/db-connect.php');
     require_once("partials/json-handler.php");
 ?>
+<script>
+    function fetchData() {
+        fetch('getEnvData.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("temperature").innerText = `Temperature: ${data.temperature}°C`;
+                document.getElementById("humidity").innerText = `Humidity: ${data.humidity}%`;            })
+            .catch(error => console.error("Error fetching data:", error));
+    }
+
+    // Refresh the data every second
+    setInterval(fetchData, 1000);
+
+    // Initial fetch when the page loads
+    window.onload = fetchData;
+</script>
+
 
 
 <?php
@@ -13,9 +30,12 @@
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  
     $jsonUrl = "http://dragon-zord/ssmonitor/received_data.json";
+    
 ?>
 <h1> Hosts</h1>
 <div class="buttons">
+    <div class="data" id="temperature">Loading...</div>
+    <div class="data" id="humidity">Loading...</div>
     <div class="addremove">
         <a href ='dashboard-add.php'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>

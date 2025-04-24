@@ -34,6 +34,14 @@ label.logo{
     line-height: 80px;
     padding: 0 50px;
     font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+.logo img{
+    vertical-align: middle;
+    padding-right: 10px;
+    z-index: 100;
+    height: 100px;
 }
 nav ul{
     float: right;
@@ -105,6 +113,13 @@ button.b1[type="button"], button.b1[type=submit]{
 }
 button.b1[type="button"]:hover, button.b1[type=submit]:hover{
     background-color: #FFD166;
+}
+.data{
+    display: flex;
+    flex-direction: row;    
+    justify-content: center;
+    padding-right: 3em;
+    padding-top: 1.1em;
 }
 .buttons{
     display: flex;
