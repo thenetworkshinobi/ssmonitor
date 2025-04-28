@@ -12,7 +12,7 @@ CREATE TABLE adminuser (
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    id_secret VARCHAR(6) NULL,
+    id_secret VARCHAR(16) NULL,
     enabled BOOLEAN NOT NULL DEFAULT FALSE
 );
 

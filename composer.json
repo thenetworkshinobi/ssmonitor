@@ -1,0 +1,14 @@
+{
+    "name": "utt/ssmonitor",
+    "description": "School Project to Monitor Network Systems",
+    "type": "project",
+    "require": {
+        "phpgangsta/googleauthenticator": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Utt\\Ssmonitor\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
