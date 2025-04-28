@@ -37,13 +37,13 @@ $base = dirname(dirname(__FILE__));
             
                 <?php
                     session_start();
-                    if (isset($_SESSION['username'])) {
+                    if (isset($_SESSION['id'])) {
                 
-                    if (isset($_SESSION['id_secret']) && ($_SESSION['id_secret']) == true) { ?>
-                        <li><a href="<?php echo $host; ?>/?action=dashboard">Dashboard</a></li>
-                    <?php }?>
+                        if (isset($_SESSION['id_secret']) && ($_SESSION['id_secret']) == true) { ?>
+                            <li><a href="<?php echo $host; ?>/?action=dashboard">Dashboard</a></li>
+                        <?php }?>
 
-                    <li><a href="<?php echo $host; ?>/login-interface/signout.php">Signout</a></li>
+                        <li><a href="<?php echo $host; ?>/login-interface/signout.php">Signout</a></li>
                 <?php
                     } else {
                 ?>
