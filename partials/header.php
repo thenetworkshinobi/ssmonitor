@@ -39,11 +39,12 @@ $base = dirname(dirname(__FILE__));
                     session_start();
                     if (isset($_SESSION['id'])) {
                 
-                        if (isset($_SESSION['id_secret']) && ($_SESSION['id_secret']) == true) { ?>
+                        if (isset($_SESSION['totp']) && ($_SESSION['totp']) == true) { ?>
                             <li><a href="<?php echo $host; ?>/?action=dashboard">Dashboard</a></li>
                         <?php }?>
-
+                        <li><a href="<?php echo $host; ?>/dashboard/changepassword.php">Change Password</a></li>
                         <li><a href="<?php echo $host; ?>/login-interface/signout.php">Signout</a></li>
+    
                 <?php
                     } else {
                 ?>

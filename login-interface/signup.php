@@ -85,7 +85,7 @@ if (isset($_POST['signup'])) {
             $signup_stmt->bindParam("lname", $lname);
             $signup_stmt->bindParam("username", $username);
             $signup_stmt->bindParam("email", $email);
-            $signup_stmt->bindParam("password", md5($password));
+            $signup_stmt->bindParam("password", password_hash($password, PASSWORD_DEFAULT));
             $signup_stmt->execute();
             session_start();
             $_SESSION['id'] = $dbh1->lastInsertId();

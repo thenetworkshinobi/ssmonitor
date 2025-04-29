@@ -1,15 +1,7 @@
 </main>
 <footer>
-    <div class="container2">
-        <div class="row">
-            <div class="">
-                <h5 class="">Footer Content</h5>
-                <p class="">You can use rows and columns here to organize your footer content.</p>
-            </div>
-            <div class="">
-                <h5 class="">Links</h5>                    
-            </div>
-        </div>
+    <div class="container2">   
+        Jemuel Griffith | 79788
     </div>
     <div class="copyright">
         <div class="container2">

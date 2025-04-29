@@ -30,7 +30,7 @@ require_once("./partials/header.php");
                         header("Location: " . $host . "/?action=signin");
                         exit();
                     }
-                    else if($_SESSION['id_secret'] == true){
+                    else if($_SESSION['totp'] == true){
                         header("Location: " . $host . "/dashboard/dashboard-home.php");
                         
                     }
@@ -43,7 +43,7 @@ require_once("./partials/header.php");
 
                 default:
                     if (isset($_SESSION['username'])) {
-                        if (isset($_SESSION['id_secret']) && $_SESSION['id_secret'] == true){
+                        if (isset($_SESSION['totp']) && $_SESSION['totp'] == true){
                             header("Location: " . $host . "/?action=dashboard");
                             exit();
                         }

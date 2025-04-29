@@ -36,7 +36,7 @@ if(isset($_POST['totp'])){
         $id_secret = $id_secret_finding_result->id_secret;
 
         if ($g->verifyCode($id_secret, $userCode, 2)) {
-            $_SESSION['id_secret']= true;
+            $_SESSION['totp']= true;
 
             header("Location: " . $host . "/dashboard/dashboard-home.php");
             exit();

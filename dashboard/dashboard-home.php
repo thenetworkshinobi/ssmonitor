@@ -66,6 +66,7 @@
                     <div class="card-container">
                         <div class="card-items" style="1">
                             <i class="fa-solid fa-server"></i>
+                            <span class="host">' . htmlspecialchars($row->hostname) . '</span>
                         </div>
                         <div class="card-items" style="2">
                             <i class="fa-solid fa-circle-info"></i>
