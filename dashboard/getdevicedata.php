@@ -15,7 +15,8 @@ if (isset($_GET['ip_address'])) {
     echo json_encode([
         'cpu_usage' => $deviceData["cpu_usage"] ?? "unavailable",
         'ram_usage_percentage' => $deviceData["ram_usage_percentage"] ?? "unavailable",
-        'network_throughput' => $deviceData["network_throughput"] ?? "unavailable",
+        'network_in_throughput' => $deviceData["network_in_throughput"] ?? "unavailable",
+        'network_out_throughput' => $deviceData["network_out_throughput"] ?? "unavailable"
     ]);
     exit;
 } else {

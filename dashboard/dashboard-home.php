@@ -98,7 +98,8 @@
                                  <ul id="device-data">
                                     <li>CPU Usage: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-cpu-usage">Loading...</span>%</li>
                                     <li>RAM Usage: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-ram-usage">Loading...</span>%</li>
-                                    <li>Network Throughput: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-network-throughput">Loading...</span> MB/s</li>
+                                    <li>Network In Throughput: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-network-in-throughput">Loading...</span> MB/s</li>
+                                    <li>Network Out Throughput: <span id="<?php echo htmlspecialchars($row->ip_address); ?>-network-out-throughput">Loading...</span> MB/s</li>
                                 </ul>
 
                                 <?php $sanitizedIpAddress = htmlspecialchars($row->ip_address, ENT_QUOTES, 'UTF-8'); ?>
@@ -116,11 +117,13 @@
                                             .then(data => {
                                                 const cpuElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-cpu-usage');
                                                 const ramElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-ram-usage');
-                                                const networkElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-throughput');
+                                                const networkInElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-in-throughput');
+                                                const networkOutElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-out-throughput');
 
                                                 if (cpuElement) cpuElement.textContent = data.cpu_usage ?? "unavailable";
                                                 if (ramElement) ramElement.textContent = data.ram_usage_percentage ?? "unavailable";
-                                                if (networkElement) networkElement.textContent = data.network_throughput ?? "unavailable";
+                                                if (networkInElement) networkInElement.textContent = data.network_in_throughput ?? "unavailable";
+                                                if (networkOutElement) networkOutElement.textContent = data.network_out_throughput ?? "unavailable";
                                             })
                                             .catch(error => console.error('Error fetching device data:', error));
                                     }

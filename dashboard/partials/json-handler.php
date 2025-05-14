@@ -24,7 +24,8 @@ function getDeviceDataFromWeb($url, $searchIp) {
             return [
                 "cpu_usage" => $device["cpu_usage"] ?? "0",
                 "ram_usage_percentage" => $device["ram_usage_percentage"] ?? "0",
-                "network_throughput" => $device["network_throughput"] ?? "0"
+                "network_in_throughput" => $device["network_in_throughput"] ?? "0",
+                "network_out_throughput" => $device["network_out_throughput"] ?? "0"
             ];
         }
     }

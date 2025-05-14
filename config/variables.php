@@ -1,4 +1,4 @@
 <?php 
-    //$host = "http://ssmonitor";
-    $host = "http://td-jgriffith-l/ssmonitor"; 
+    $host = "http://dragon-zord/ssmonitor";
+    //$host = "http://td-jgriffith-l/ssmonitor"; 
 ?>
