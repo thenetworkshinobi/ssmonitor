@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $set_user_stmt->bindValue(1, $adminID);
         $set_user_stmt->execute();
 
-        echo "<p style='color:green;'>✅ Code is valid. 2FA is now enabled for your account.</p>";
-        echo "<p style='color:green;'>Page will refresh automatically.</p>";
+        echo "<p>✅ Code is valid. 2FA is now enabled for your account.</p>";
+        echo "<h3 class='loading'>.....Refreshing.....</h3>";
         session_unset();
         session_destroy();
         // Redirect after 30 seconds using Refresh header
