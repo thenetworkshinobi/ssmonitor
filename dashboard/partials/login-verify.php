@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // PHP session inactivity timeout
-$inactive = 60; // in seconds
+$inactive = 300; // in seconds
 
 if (isset($_SESSION['timeout'])) {
     $session_life = time() - $_SESSION['timeout'];
@@ -26,7 +26,7 @@ $_SESSION['timeout'] = time(); // reset timeout marker
 ?>
 
 <script>
-    let timeoutSeconds = 60; // same as $inactive
+    let timeoutSeconds = 300; // same as $inactive
     setTimeout(function () {
         alert("You have been logged out due to inactivity.");
         window.location.href = "<?php echo $host; ?>/?action=signin";

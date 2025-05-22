@@ -285,7 +285,7 @@ h3.loading:before{
     }
 }
 
-@media (max-width: 827px){
+@media (max-width: 1007px){
     .checkbtn{
         display: block;
     }
