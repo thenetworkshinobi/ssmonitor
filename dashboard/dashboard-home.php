@@ -120,10 +120,10 @@
                                                 const networkInElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-in-throughput');
                                                 const networkOutElement = document.getElementById('<?php echo $sanitizedIpAddress; ?>-network-out-throughput');
 
-                                                if (cpuElement) cpuElement.textContent = data.cpu_usage ?? "unavailable";
-                                                if (ramElement) ramElement.textContent = data.ram_usage_percentage ?? "unavailable";
-                                                if (networkInElement) networkInElement.textContent = data.network_in_throughput ?? "unavailable";
-                                                if (networkOutElement) networkOutElement.textContent = data.network_out_throughput ?? "unavailable";
+                                                if (cpuElement) cpuElement.textContent = data.cpu_usage ?? "--";
+                                                if (ramElement) ramElement.textContent = data.ram_usage_percentage ?? "--";
+                                                if (networkInElement) networkInElement.textContent = data.network_in_throughput ?? "--";
+                                                if (networkOutElement) networkOutElement.textContent = data.network_out_throughput ?? "--";
                                             })
                                             .catch(error => console.error('Error fetching device data:', error));
                                     }
