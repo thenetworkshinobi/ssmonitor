@@ -4,7 +4,6 @@
 class dbConnect
 {
     private $dbhost = "dragon-zord";
-    //private $dbhost = "td-jgriffith-l";
     private $dbname = "ssmonitor";
     private $dbuser = "ssadminuser";
     private $dbpassword = "Password1";
